@@ -30,13 +30,26 @@
                 <div class="sidebar-tab">Add Project</div>
             </div>
         </div>
-        <div class="main"></div>
+        <div class="main">
+            <div class="task-list"></div>
+            <button id="add-task-btn">+ Add Task</button>
+        </div>
     </div>
     <div class="footer">
         <p>Copyright &copy 2022 DP</p>
     </div>
+    <div class="modal-bg">
+        <form id="modal">
+            <h3>Add new task</h3>
+            <input class="input" type="text" id="title" required maxlength="100">
+            <div class="modal-btn-container">
+                <button id="submit-btn" class="btn green" type="submit">Submit</button>
+                <button id="cancel-btn" class="btn red" type="submit">Cancel</button>
+            </div>
 
-    <script src="bundle.js"></script>
+        </form>
+
+        <script src="bundle.js"></script>
 </body>
 
 </html>

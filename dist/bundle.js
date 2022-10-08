@@ -1,0 +1,1 @@
+(()=>{"use strict";!function(){const e=document.querySelector(".main"),t=(document.querySelector(".task-list"),document.createElement("h1"));t.textContent="Inbox",e.insertBefore(t,e.children[0])}()})();
