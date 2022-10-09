@@ -6,12 +6,17 @@ export function loadInbox() {
     const modalSubmit = document.querySelector("#submit-btn");
     const taskDock = document.querySelector(".task-list");
 
-    let myTaskList = [];
-    let taskCalendar = [];
-
-    const inboxTitle = document.createElement("h1");
-    inboxTitle.textContent = "Inbox";
-    main.insertBefore(inboxTitle, main.children[0]);
+    //check title page name and amend
+    if (main.firstElementChild.textContent == "Inbox" || main.firstElementChild.textContent == "Today's Tasks") {
+        main.removeChild(main.firstElementChild);
+        const inboxTitle = document.createElement("h1");
+        inboxTitle.textContent = "Inbox";
+        main.insertBefore(inboxTitle, main.children[0]);
+    } else {
+        const inboxTitle = document.createElement("h1");
+        inboxTitle.textContent = "Inbox";
+        main.insertBefore(inboxTitle, main.children[0]);
+    }
 
     const addTaskBtn = document.querySelector("#add-task-btn");
     addTaskBtn.addEventListener("click", () => {
@@ -71,7 +76,6 @@ export function loadInbox() {
             //push dates to taskCalendar array
             taskCalendar.push(date.textContent);
 
-            console.log(date.textContent);
 
             taskItem.appendChild(checkBox);
             taskItem.appendChild(title);
@@ -79,8 +83,9 @@ export function loadInbox() {
         }
     }
 
-
 }
+
+
 
 
 
