@@ -88,35 +88,30 @@ video {
     box-sizing: border-box;
 }
 
-body {
-    display: flex;
-    flex-direction: column;
-    height: 100vh;
-}
 
 .header {
-    height: 200px;
+    height: 100px;
     background-color: #333;
     display: flex;
     align-items: center;
 }
 
 .check-logo {
-    height: 150px;
-    width: 150px;
+    height: 80px;
+    width: 80px;
     filter: invert(99%) sepia(6%) saturate(76%) hue-rotate(276deg) brightness(114%) contrast(100%);
-    margin: 20px;
+    margin: 8px;
 }
 
 .title {
     color: white;
-    font-size: 4.5rem;
+    font-size: 2.5rem;
 }
 
 .sidebar {
     background-color: #ddd;
-    width: 475px;
-    padding: 20px 20px 20px 40px;
+    width: 255px;
+    padding: 10px 10px 10px 20px;
     display: flex;
     flex-direction: column;
 }
@@ -127,27 +122,34 @@ body {
     margin: 10px 0px;
 }
 
+.icon-wrapper:hover {
+    background-color: lightgray;
+}
+
 .sidebar-icon {
-    height: 70px;
-    width: 70px;
+    height: 30px;
+    width: 30px;
     cursor: pointer;
 }
 
 .sidebar-tab {
-    font-size: 3rem;
-    margin: 10px;
+    font-size: 1.5rem;
+    margin: 5px;
     cursor: pointer;
 }
 
 h2 {
-    font-size: 4rem;
+    font-size: 2rem;
     font-weight: bold;
-    margin-top: 100px;
+    margin-top: 75px;
 }
 
 .footer {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    height: 50px;
     background-color: #333;
-    height: 80px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -155,32 +157,39 @@ h2 {
 
 .footer>p {
     color: white;
-    font-size: 2rem;
+    font-size: 1rem;
 }
 
 .container {
     display: flex;
     flex: auto;
-    min-height: calc(100vh - 200px - 80px);
+    min-height: calc(100vh - 100px - 50px);
 }
 
 .main {
-    min-width: calc(100vw - 475px);
-    min-height: calc(100vh - 200px - 80px);
-    padding: 40px;
+    min-width: calc(100vw - 255px);
+    min-height: calc(100vh - 100px - 50px);
+    padding: 60px;
     display: flex;
     flex-direction: column;
+    overflow: auto;
 }
 
 #add-task-btn {
-    font-size: 3rem;
+    font-size: 1.5rem;
     display: flex;
     border-radius: 15px;
     padding: 10px;
+    margin-top: 20px;
     background-color: white;
     border-style: none;
     cursor: pointer;
 }
+
+#add-task-btn:hover {
+    background-color: #ddd;
+}
+
 
 .modal-bg {
     position: fixed;
@@ -198,37 +207,88 @@ h2 {
 }
 
 #modal {
-    position: relative;
-    width: 300px;
-    height: 100px;
-    padding: 20px;
+    width: 40%;
+    height: 30%;
+    padding: 10px;
     border-radius: 8px;
     display: flex;
     flex-direction: column;
     background-color: #ddd;
     align-items: center;
+    justify-content: space-around;
 }
 
-#modal:hover {
-    background-color: #ddd;
+#modal>h3 {
+    font-size: 2rem;
 }
+
+#modal>.input {
+    height: 10%;
+    width: 80%;
+    font-size: 1rem;
+}
+
+#modal>#date {
+    height: 10%;
+    width: 80%;
+    font-size: 1rem;
+}
+
 
 .modal-btn-container {
     display: flex;
     justify-content: center;
-    margin-top: 10px;
+    width: 80%;
+    height: 25%;
+}
+
+.modal-btn-container>.btn {
+    width: 50%;
+    font-size: 1rem;
+    font-weight: 900;
 }
 
 .btn.green {
     background-color: lightgreen;
+    cursor: pointer;
 }
 
 .btn.red {
     background-color: lightcoral;
+    cursor: pointer;
 }
 
 h1 {
-    font-size: 3rem;
+    font-size: 2.5rem;
     font-weight: bolder;
-    margin-bottom: 50px;
+    margin-bottom: 25px;
+}
+
+.modal-bg.active {
+    visibility: visible;
+    opacity: 1;
+}
+
+.task-item {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.6rem;
+}
+
+.task-item>p {
+    margin-right: auto;
+}
+
+.task-item>img {
+    height: 50px;
+    width: 50px;
+    cursor: pointer;
+}
+
+.task-item>input {
+    height: 30px;
+    width: 120px;
+    border: none;
+    font-size: large;
 }
