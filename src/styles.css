@@ -114,6 +114,7 @@ video {
     padding: 10px 10px 10px 20px;
     display: flex;
     flex-direction: column;
+    overflow: auto;
 }
 
 .icon-wrapper {
@@ -126,11 +127,22 @@ video {
     background-color: lightgray;
 }
 
-.sidebar-icon {
+.sidebar-icon,
+.sidebar-icon-2 {
     height: 30px;
     width: 30px;
     cursor: pointer;
 }
+
+.sidebar-icon-2 {
+    transition: ease-out 0.3s;
+    outline: none;
+}
+
+.sidebar-icon-2:hover {
+    box-shadow: inset 147px 0 0 0 lightcoral;
+}
+
 
 .sidebar-tab {
     font-size: 1.5rem;
@@ -145,7 +157,6 @@ h2 {
 }
 
 .footer {
-    position: fixed;
     bottom: 0;
     width: 100%;
     height: 50px;
@@ -164,13 +175,14 @@ h2 {
     display: flex;
     flex: auto;
     min-height: calc(100vh - 100px - 50px);
+    overflow: auto;
 }
 
 .main {
+    display: flex;
     min-width: calc(100vw - 255px);
     min-height: calc(100vh - 100px - 50px);
     padding: 60px;
-    display: flex;
     flex-direction: column;
     overflow: auto;
 }
@@ -189,7 +201,6 @@ h2 {
 #add-task-btn:hover {
     background-color: #ddd;
 }
-
 
 .modal-bg {
     position: fixed;
@@ -218,11 +229,11 @@ h2 {
     justify-content: space-around;
 }
 
-#modal>h3 {
+h3 {
     font-size: 2rem;
 }
 
-#modal>.input {
+.input {
     height: 10%;
     width: 80%;
     font-size: 1rem;
@@ -264,7 +275,8 @@ h1 {
     margin-bottom: 25px;
 }
 
-.modal-bg.active {
+.modal-bg.active,
+.modal-bg-2.active {
     visibility: visible;
     opacity: 1;
 }
@@ -291,4 +303,31 @@ h1 {
     width: 120px;
     border: none;
     font-size: large;
+}
+
+.modal-bg-2 {
+    position: fixed;
+    width: 100%;
+    height: 100vh;
+    top: 0;
+    left: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    visibility: hidden;
+    opacity: 0;
+    transition: visibility 0s, opacity 0.5s;
+}
+
+#modal-2 {
+    width: 40%;
+    height: 30%;
+    padding: 10px;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    background-color: #ddd;
+    align-items: center;
+    justify-content: space-around;
 }

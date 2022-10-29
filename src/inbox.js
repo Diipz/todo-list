@@ -1,7 +1,6 @@
 export function loadInbox() {
     let main = document.querySelector(".main");
 
-
     //check title page name and amend
     if (main.firstElementChild.textContent == "Inbox" || main.firstElementChild.textContent == "Today's Tasks") {
         main.removeChild(main.firstElementChild);
