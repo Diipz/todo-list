@@ -120,11 +120,14 @@ video {
 .icon-wrapper {
     display: flex;
     align-items: center;
+    width: 100%;
     margin: 10px 0px;
+
 }
 
 .icon-wrapper:hover {
     background-color: lightgray;
+
 }
 
 .sidebar-icon,
@@ -133,6 +136,7 @@ video {
     width: 30px;
     cursor: pointer;
 }
+
 
 .sidebar-icon-2 {
     transition: ease-out 0.3s;
@@ -144,10 +148,12 @@ video {
 }
 
 
-.sidebar-tab {
+.sidebar-tab,
+.sidebar-tab-2 {
     font-size: 1.5rem;
     margin: 5px;
     cursor: pointer;
+    width: 195px;
 }
 
 h2 {

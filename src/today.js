@@ -6,7 +6,7 @@ export function loadTodayPage() {
 
 
     //check title page name and amend
-    if (main.firstElementChild.textContent == "Inbox" || main.firstElementChild.textContent == "Today's Tasks") {
+    if (main.firstElementChild.textContent !== "") {
         main.removeChild(main.firstElementChild);
         const todayTitle = document.createElement("h1");
         todayTitle.textContent = "Today's Tasks";
@@ -26,7 +26,7 @@ export function loadTodayPage() {
     //function to identify today's tasks and push them into todaysTasks array
     function identifyTodaysTasks() {
         if (myTaskList !== "") {
-            //loop through myTaskLIst to identify tasks dated today
+            //loop through myTaskList to identify tasks dated today
             for (let i = 0; i < myTaskList.length; i++) {
                 if (isToday(parse(myTaskList[i].date, "dd/MM/yyyy", new Date()))) {
                     todaysTasks.push(myTaskList[i]);
@@ -37,7 +37,7 @@ export function loadTodayPage() {
     }
 
 
-    //add to tasks to main section of page
+    //add today's tasks to main section of page
     function createTodaysTaskList() {
         let newNode = document.querySelector(".task-list");
         newNode.textContent = "";
