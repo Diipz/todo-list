@@ -13,6 +13,7 @@ export function loadInbox() {
         main.insertBefore(inboxTitle, main.children[0]);
     }
 
+
 }
 
 

@@ -53,6 +53,18 @@ export function loadTodayPage() {
             checkBox.addEventListener("click", () => {
                 todaysTasks.splice(i, 1);
                 myTaskList.splice(i, 1);
+                storedMyTaskList.splice(i, 1);
+
+                //update local storage
+                localStorage.setItem("stored-task-list", JSON.stringify(storedMyTaskList));
+
+                //loop through project names and delete from specific project array
+                for (let j = 0; j < projects.length; j++) {
+                    //remove task from specific project array and update local storage
+                    window[projects[j]].splice(j, 1);
+                    localStorage.setItem(`${projects[j]}`, JSON.stringify(window[projects[j]]));
+                }
+
                 createTodaysTaskList();
             });
 

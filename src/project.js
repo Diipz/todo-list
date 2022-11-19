@@ -25,9 +25,17 @@ export function loadProjectTaskList() {
                     for (let k = 0; k < myTaskList.length; k++) {
                         if (window[projects[i]][j].title == myTaskList[k].title) {
                             myTaskList.splice(k, 1);
+                            storedMyTaskList.splice(k, 1);
+
+                            //update local storage
+                            localStorage.setItem("stored-task-list", JSON.stringify(storedMyTaskList));
                         }
                     }
+                    //remove task from specific project array and update local storage
                     window[projects[i]].splice(j, 1);
+                    localStorage.setItem(`${projects[i]}`, JSON.stringify(window[projects[i]]));
+
+                    loadProjectTaskList();
 
                 });
 

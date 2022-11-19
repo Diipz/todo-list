@@ -21,7 +21,31 @@ const modalBg2 = document.querySelector(".modal-bg-2");
 const modalCancel2 = document.querySelector("#cancel-btn-2");
 const modalSubmit2 = document.querySelector("#submit-btn-2");
 const addProjectBtn = document.querySelector("#project-page");
-const projectNames = Array.from(document.querySelectorAll(".sidebar-tab-2"));
+
+
+window.storedMyTaskList = JSON.parse(localStorage.getItem("stored-task-list")) || [];
+window.storedProjects = JSON.parse(localStorage.getItem("project-list")) || [];
+
+
+if (storedMyTaskList !== "") {
+    myTaskList = storedMyTaskList;
+}
+
+if (storedProjects !== "") {
+    projects = storedProjects;
+    addProjectToSideBar();
+}
+
+//loop through projects array to identify stored project content from local storage to add to projects
+for (let i = 0; i < projects.length; i++) {
+
+    if (JSON.parse(localStorage.getItem(`${projects[i]}`)) !== "") {
+        let projectContent = JSON.parse(localStorage.getItem(`${projects[i]}`));
+        window[projects[i]] = projectContent;
+    } else {
+        window[projects[i]] = [];
+    }
+}
 
 
 loadInbox();
@@ -30,7 +54,6 @@ loadInbox();
 if (myTaskList !== "") {
     createInboxTaskList();
 }
-
 
 inboxPage.addEventListener("click", () => {
     loadInbox();
@@ -78,10 +101,16 @@ function addTaskToList(title, date) {
 
     myTaskList.push(newTask);
 
+    //add to localStorage
+    localStorage.setItem("stored-task-list", JSON.stringify(storedMyTaskList));
+
+
     //check if user on project page and push task to project array if so
     for (let i = 0; i < projectNames.length; i++) {
         if (projectNames[i].textContent == heading.textContent) {
             window[projectNames[i].textContent].push(newTask);
+
+            localStorage.setItem(`${projectNames[i].textContent}`, JSON.stringify(window[projectNames[i].textContent]));
         }
     }
 
@@ -100,31 +129,11 @@ function createInboxTaskList() {
     let newNode = document.querySelector(".task-list");
     newNode.textContent = "";
 
-    let heading = document.querySelector("h1");
-
 
     for (let i = 0; i < myTaskList.length; i++) {
         let taskItem = document.createElement("div");
         taskItem.classList.add("task-item");
         taskDock.appendChild(taskItem);
-
-
-        //create checkbox icon to remove task once complete
-        let checkBox = document.createElement("img");
-        checkBox.src = "../src/img/crop-square.svg";
-        checkBox.addEventListener("click", () => {
-            myTaskList.splice(i, 1);
-            todaysTasks.splice(i, 1);
-
-            //loop through project array and delete task if on current project page
-            for (let j = 0; j < projectNames.length; j++) {
-                if (projectNames[j].textContent == heading.textContent) {
-                    window[projectNames[j].textContent].splice(j, 1);
-                }
-            }
-
-            createInboxTaskList();
-        });
 
         //create name of task
         let title = document.createElement("p");
@@ -134,6 +143,27 @@ function createInboxTaskList() {
         let date = document.createElement("h5");
         date.classList.add("date");
         date.textContent = myTaskList[i].date;
+
+        //create checkbox icon to remove task once complete
+        let checkBox = document.createElement("img");
+        checkBox.src = "../src/img/crop-square.svg";
+        checkBox.addEventListener("click", () => {
+            myTaskList.splice(i, 1);
+            todaysTasks.splice(i, 1);
+            storedMyTaskList.splice(i, 1);
+
+            //update local storage
+            localStorage.setItem("stored-task-list", JSON.stringify(storedMyTaskList));
+
+            //loop through project names and delete from specific project array
+            for (let j = 0; j < projects.length; j++) {
+                //remove task from specific project array and update local storage
+                window[projects[j]].splice(j, 1);
+                localStorage.setItem(`${projects[j]}`, JSON.stringify(window[projects[j]]));
+            }
+
+            createInboxTaskList();
+        });
 
 
         taskItem.appendChild(checkBox);
@@ -171,6 +201,10 @@ modalSubmit2.addEventListener("click", () => {
         projects.push(projectTitle);
         window[projectArrName] = [];
 
+        //add to localStorage
+        localStorage.setItem("project-list", JSON.stringify(storedProjects));
+        localStorage.setItem(`${projectArrName}`, JSON.stringify(window[projectArrName]));
+
         //add project to sidebar list
         let wrapper = document.createElement("div");
         wrapper.classList.add("icon-wrapper");
@@ -193,21 +227,29 @@ modalSubmit2.addEventListener("click", () => {
         icon.classList.add("sidebar-icon-2");
         icon.src = "../src/img/minus.svg";
         icon.addEventListener("click", () => {
+
             //loop through specific project array and myTaskList array to remove identical tasks
             for (let i = 0; i < window[projectHeading.textContent].length; i++) {
                 for (let j = 0; j < myTaskList.length; j++) {
                     if (window[projectHeading.textContent][i].title == myTaskList[j].title) {
                         myTaskList.splice(j, 1);
+                        storedMyTaskList.splice(j, 1);
+
+                        //update local storage
+                        localStorage.setItem("stored-task-list", JSON.stringify(storedMyTaskList));
                     }
                 }
-
             }
             //remove parent node 
             icon.parentNode.parentNode.removeChild(icon.parentNode);
             //remove project from project array
             projects.splice(projects.indexOf(projectTitle), 1);
-            //empty task list of project
+            //update local storage
+            localStorage.setItem("project-list", JSON.stringify(storedProjects));
+            //empty task list of project and update local storage
             window[projectHeading.textContent] = [];
+            localStorage.setItem(`${projectHeading.textContent}`, JSON.stringify(window[projectHeading.textContent]));
+
 
             if (projectTitle == projectHeading.textContent) {
                 loadInbox();
@@ -221,12 +263,80 @@ modalSubmit2.addEventListener("click", () => {
 
     }
 
-
-
     document.getElementById("modal-2").reset();
     modalBg2.classList.toggle("active");
 });
 
+//append project names to sidebar from local storage
+function addProjectToSideBar() {
+
+
+    for (let h = 0; h < projects.length; h++) {
+
+
+        let wrapper = document.createElement("div");
+        wrapper.classList.add("icon-wrapper");
+        projectList.appendChild(wrapper);
+
+
+        let projectName = document.createElement("div");
+        let projectHeading = document.createElement("h1");
+        projectName.classList.add("sidebar-tab-2");
+        projectName.textContent = projects[h];
+        projectHeading.textContent = projects[h];
+        projectName.addEventListener("click", () => {
+            main.removeChild(main.firstElementChild);
+            main.insertBefore(projectHeading, main.children[0]);
+            loadProjectTaskList();
+        });
+
+
+        let icon = document.createElement("img");
+        icon.classList.add("sidebar-icon-2");
+        icon.src = "../src/img/minus.svg";
+        icon.addEventListener("click", () => {
+
+
+            if (window[projectHeading.textContent].length > 0) {
+
+                //loop through specific project array and myTaskList array to remove identical tasks
+                for (let i = 0; i < window[projectHeading.textContent].length; i++) {
+                    for (let j = 0; j < myTaskList.length; j++) {
+                        if (window[projectHeading.textContent][i].title == myTaskList[j].title) {
+                            myTaskList.splice(j, 1);
+                            storedMyTaskList.splice(j, 1);
+
+                            //update local storage
+                            localStorage.setItem("stored-task-list", JSON.stringify(storedMyTaskList));
+                        }
+                    }
+                }
+            }
+
+
+            //remove parent node 
+            icon.parentNode.parentNode.removeChild(icon.parentNode);
+            //remove project from project array
+            projects.splice(projects.indexOf(projects[h]), 1);
+            //empty task list of project
+            window[projectHeading.textContent] = [];
+            localStorage.setItem(`${projectHeading.textContent}`, JSON.stringify(window[projectHeading.textContent]));
+            //remove project from local storage array and update
+            storedProjects.splice(storedProjects.indexOf(projects[h]), 1);
+            localStorage.setItem("project-list", JSON.stringify(storedProjects));
+
+            if (main.firstElementChild.textContent == projectHeading.textContent) {
+                loadInbox();
+                createInboxTaskList();
+            }
+
+        })
+
+        wrapper.appendChild(icon);
+        wrapper.appendChild(projectName);
+    }
+
+}
 
 
 
