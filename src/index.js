@@ -193,6 +193,12 @@ modalSubmit2.addEventListener("click", () => {
     let projectTitle = document.getElementById("project-title").value;
     let projectArrName = document.getElementById("project-title").value;
 
+    for (let z = 0; z < projects.length; z++) {
+        if (projects[z] == projectTitle) {
+            alert("This project already exists, please select a new project name")
+            return;
+        }
+    }
 
     if (projectTitle == "") {
         alert("Must enter project name");
